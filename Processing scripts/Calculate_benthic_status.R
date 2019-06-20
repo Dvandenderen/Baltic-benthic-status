@@ -39,7 +39,7 @@
   nb <- length(longclasses)-1
   datlong <- matrix(data=100, nrow(rdat),nb+1)
 
-# run the model 
+# estimate longevity 
   library(rje)
   
   datnew <- matrix(data=NA, ncol=nb+1, nrow=nrow(rdat))
@@ -47,7 +47,7 @@
       llst<-log(longclasses[i])
       llend <- log(longclasses[i+1])
       datnew[,i] <-expit(b0+b5*llend*Salinity+b6*Depth*Salinity+b4*Stress+b3*Depth+b2*Salinity+b1*llend+b7*llend*Depth)-
-      expit(b0+b5*llst*Salinity+b6*Depth*Salinity+b4*Stress+b3*Depth+b2*Salinity+b1*llst+b7*llend*Depth)
+      expit(b0+b5*llst*Salinity+b6*Depth*Salinity+b4*Stress+b3*Depth+b2*Salinity+b1*llst+b7*llst*Depth)
   }
     
   datnew[,15] <- 1- rowSums(datnew[,1:14])
@@ -56,6 +56,74 @@
   
   setwd("C:/Users/pdvd/Online for git/Baltic/Processed data/")
   write.csv(benth_matlab,file="whole_comm_matlab.csv")
+  
+# load the model outcome for suspension feeders
+  setwd("C:/Users/pdvd/Online for git/Baltic/Processed data")
+  load("Model_output_suspensionF.Rdata")
+  
+  samp <- matrix(data=NA, nrow= 1,ncol = 8)
+  samp[1,] <- modcf_susp[,3]
+  b0<-samp[1,1] ; b1<-samp[1,2]
+  b2<-samp[1,3] ; b3<-samp[1,4]
+  b4<-samp[1,5] ; b5<-samp[1,6]
+  b6<-samp[1,7] ; b7<-samp[1,8]
+  
+# combine all data 
+  longclasses <- c(10^-100,1,2,3,4,5,6,7,8,9,10,11,12,13,14)
+  nb <- length(longclasses)-1
+  datlong <- matrix(data=100, nrow(rdat),nb+1)
+  
+# estimate longevity 
+  library(rje)
+  
+  datnew <- matrix(data=NA, ncol=nb+1, nrow=nrow(rdat))
+  for(i in 1:nb){
+    llst<-log(longclasses[i])
+    llend <- log(longclasses[i+1])
+    datnew[,i] <-expit(b0+b5*llend*Salinity+b6*Depth*Salinity+b4*Stress+b3*Depth+b2*Salinity+b1*llend+b7*llend*Depth)-
+      expit(b0+b5*llst*Salinity+b6*Depth*Salinity+b4*Stress+b3*Depth+b2*Salinity+b1*llst+b7*llst*Depth)
+  }
+  
+  datnew[,15] <- 1- rowSums(datnew[,1:14])
+  
+  benthSusp_matlab <- cbind(rdat[,c(1,11:14,16)], datnew)
+  
+  setwd("C:/Users/pdvd/Online for git/Baltic/Processed data/")
+  write.csv(benthSusp_matlab,file="susp_matlab.csv")
+  
+# load the model outcome for bioturbators
+  setwd("C:/Users/pdvd/Online for git/Baltic/Processed data")
+  load("Model_output_bioturbators.Rdata")
+  
+  samp <- matrix(data=NA, nrow= 1,ncol = 7)
+  samp[1,] <- modcf_biot[,3]
+  b0<-samp[1,1] ; b1<-samp[1,2]
+  b2<-samp[1,3] ; b3<-samp[1,4]
+  b4<-samp[1,5] ; b5<-samp[1,6]
+  b6<-samp[1,7]
+  
+# combine all data 
+  longclasses <- c(10^-100,1,2,3,4,5,6,7,8,9,10,11,12,13,14)
+  nb <- length(longclasses)-1
+  datlong <- matrix(data=100, nrow(rdat),nb+1)
+  
+# estimate longevity 
+  library(rje)
+  
+  datnew <- matrix(data=NA, ncol=nb+1, nrow=nrow(rdat))
+  for(i in 1:nb){
+    llst<-log(longclasses[i])
+    llend <- log(longclasses[i+1])
+    datnew[,i] <-expit(b0+b5*Depth*Salinity+b4*Stress+b3*Depth+b2*Salinity+b1*llend+b6*llend*Depth)-
+      expit(b0+b5*Depth*Salinity+b4*Stress+b3*Depth+b2*Salinity+b1*llst+b6*llst*Depth)
+  }
+  
+  datnew[,15] <- 1- rowSums(datnew[,1:14])
+  
+  benthSusp_matlab <- cbind(rdat[,c(1,11:14,16)], datnew)
+  
+  setwd("C:/Users/pdvd/Online for git/Baltic/Processed data/")
+  write.csv(benthSusp_matlab,file="susp_matlab.csv")
   
   
   
