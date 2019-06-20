@@ -120,10 +120,10 @@
   
   datnew[,15] <- 1- rowSums(datnew[,1:14])
   
-  benthSusp_matlab <- cbind(rdat[,c(1,11:14,16)], datnew)
+  benthBiot_matlab <- cbind(rdat[,c(1,11:14,16)], datnew)
   
   setwd("C:/Users/pdvd/Online for git/Baltic/Processed data/")
-  write.csv(benthSusp_matlab,file="susp_matlab.csv")
+  write.csv(benthBiot_matlab,file="biot_matlab.csv")
   
   
   
