@@ -1,6 +1,6 @@
 
-# calculate impact (since the temporal model is slow it is estimated in matlab, script is to prepare the files 
-# for matlab)
+# calculate impact (since the temporal model is slow it is estimated in matlab, script is to prepare 
+# the files for matlab)
 
 # get balticgrid
   setwd("C:/Users/pdvd/Online for git/Baltic/Data")
@@ -18,7 +18,7 @@
   rdat <-rdat[complete.cases(rdat[ , c("depth", "Bsalinity","exposu")]),]
   rdat$surface_SAR[is.na(rdat$surface_SAR)] <- 0
   rdat <- subset(rdat,rdat$min_oxygen <= 3.2 |  rdat$surface_SAR > 0)
-  rdat$depth[rdat$depth > 0]<- -0.5
+  rdat$depth[rdat$depth > -0.5] <- -0.5
   Depth<-log(abs(rdat$depth-1))
   Salinity<-rdat$Bsalinity/10
   Stress<-log(rdat$expos+1)
