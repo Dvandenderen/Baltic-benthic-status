@@ -1,6 +1,6 @@
 
-# calculate impact (since the temporal model is slow it is only used for grid cells with 
-# oxygen concentrations between 0.3 and 3.2 ml O2 per L across all seasons)
+# calculate impact (since the temporal model is slow it is estimated in matlab, script is to prepare the files 
+# for matlab)
 
 # get balticgrid
   setwd("C:/Users/pdvd/Online for git/Baltic/Data")
@@ -17,7 +17,7 @@
   rdat <-as.data.frame(balticgrid)
   rdat <-rdat[complete.cases(rdat[ , c("depth", "Bsalinity","exposu")]),]
   rdat$surface_SAR[is.na(rdat$surface_SAR)] <- 0
-  rdat <- subset(rdat,rdat$min_oxygen > 3.2 & rdat$surface_SAR >0)
+  rdat <- subset(rdat,rdat$min_oxygen <= 3.2 |  rdat$surface_SAR > 0)
   rdat$depth[rdat$depth > 0]<- -0.5
   Depth<-log(abs(rdat$depth-1))
   Salinity<-rdat$Bsalinity/10
@@ -52,17 +52,10 @@
     
   datnew[,15] <- 1- rowSums(datnew[,1:14])
 
-# get fishing and oxygen conditions
-  longclasses <- c(1:15)
-  Recov <- 5.31/longclasses 
-  depBT <- rdat$surface_SAR * 0.06
+  benth_matlab <- cbind(rdat[,c(1,11:14,16)], datnew)
   
-# calculate state for the whole community
-  dat <-as.data.frame(matrix(data=NA,nrow=3579))
-
-  for(i in 1:15){
-    dat[,i]<-datnew[,i]*(1-depBT/Recov[i])
-  }  
-  dat[dat<0] <- 0
-  datdefault  <- rowSums(dat)
+  setwd("C:/Users/pdvd/Online for git/Baltic/Processed data/")
+  write.csv(benth_matlab,file="whole_comm_matlab.csv")
+  
+  
   
