@@ -35,6 +35,11 @@ rm(list=ls())
   dat_undist<-subset(Master,Master$SAR <0.1) # all stations fished on average >= 0.1 per year are excluded
   dat_undist<-subset(dat_undist,dat_undist$Oxygen > 3.2) # all stations with oxygen conditions <= 3.2 in one season are excluded
 
+# check correlations
+  cor(Master$Depth[1:1558],Master$Stress[1:1558])
+  cor(Master$Salinity[1:1558],Master$Stress[1:1558])
+  cor(Master$Salinity[1:1558],Master$Depth[1:1558])
+  
 # WHOLE BENTHIC COMMUNITY
 #########################
   dat_whole <-dat_undist[complete.cases(dat_undist[ , "Cumb"]),]
