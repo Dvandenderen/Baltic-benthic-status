@@ -1,7 +1,7 @@
 rm(list=ls())
 
 # script to estimate the longevity biomass composition as a function of environmental conditions
-# (only included models that are presented in the manuscript)
+# (mainly included models that are presented in the manuscript)
 
   setwd("C:/Users/pdvd/Online for git/Baltic/Data")
   load("benthic_data_gogina.Rdata")
@@ -59,7 +59,7 @@ rm(list=ls())
                    data=dat_whole, family=binomial,  
                    control=glmerControl(optimizer="bobyqa", optCtrl = list(maxfun = 100000),
                                         check.conv.singular = .makeCC(action = "ignore",  tol = 1e-4)))
-  mod2 <- update(mod1, ~ . + ll*Salinity)
+  mod2 <- update(mod1, ~ . + ll*Salinity + ll*Depth)
   mod3 <- update(mod1, ~ . + ll*Salinity + Depth*Salinity)
   mod4 <- update(mod1, ~ . + ll*Salinity + Depth*Salinity + ll*Depth) ## <-- best model
   mod5 <- update(mod1, ~ . + ll*Salinity + Depth*Salinity + ll*Depth - Stress)
@@ -92,7 +92,7 @@ rm(list=ls())
                    data=susp, family=binomial,  
                    control=glmerControl(optimizer="bobyqa", optCtrl = list(maxfun = 100000),
                                         check.conv.singular = .makeCC(action = "ignore",  tol = 1e-4)))
-  mod2 <- update(mod1, ~ . + ll*Salinity)
+  mod2 <- update(mod1, ~ . + ll*Salinity + ll*Depth)
   mod3 <- update(mod1, ~ . + ll*Salinity + Depth*Salinity)
   mod4 <- update(mod1, ~ . + ll*Salinity + Depth*Salinity + ll*Depth) ## <-- best model
   mod5 <- update(mod1, ~ . + ll*Salinity + Depth*Salinity + ll*Depth - Stress)
