@@ -1,12 +1,14 @@
+%%
+% load whole_comm_matlab longevity as a numeric matrix
+% load susp_matlab longevity as a numeric matrix
+% load biot_matlab longevity as a numeric matrix
 
-% load whole_comm_matlab longevity as a table, others as columns
+% load oxygen and SAR as a column (same for all three csv files)
 oxyspring = oxygenspring;
 oxysummer = oxygensummer;
 oxyautumn = oxygenautumn;
 oxywinter = oxygenwinter;
 SAR = surface_SAR;
-
-datbenth = table2array(wholecommmatlab);
 
 % I run the model for 100 years, incorporating oxygen as a temporal pattern
 % and trawling as a random pattern
@@ -38,8 +40,7 @@ end
 
 clear xx oxyautumn oxygen oxyspring  oxysummer oxywinter ...
     ranF  SAR SARex SARfl totSAR year fishevent grid pos oxygen_tot ...
-    oxygenautumn oxygenspring oxygensummer oxygenwinter surface_SAR ...
-    wholecommmatlab
+    oxygenautumn oxygenspring oxygensummer oxygenwinter surface_SAR 
 
 % get the rates from the resample
 state = zeros(nb,3); 
@@ -62,6 +63,7 @@ for long = 1:15
     calcul(:,long) = mean(Pall(:,18251:end-1),2);
 end
 
-state(: , 1) = sum(calcul .* datbenth,2);
+state(: , 1) = sum(calcul .* wholecommmatlab,2);
+state(: , 2) = sum(calcul .* suspmatlab,2);
+state(: , 3) = sum(calcul .* biotmatlab,2);
 save state.mat state
- 
