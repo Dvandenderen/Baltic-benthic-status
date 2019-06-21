@@ -11,6 +11,7 @@
   pathname <- file.path(path, "state.mat")
   state <- readMat(pathname)
   state <- unlist(state$state)
+  colnames(state) <- c("state","state_susp","state_biot")
   
   setwd("C:/Users/pdvd/Online for git/Baltic/Processed data")
   locat <- read.csv("whole_comm_matlab.csv", header=T, sep=",")

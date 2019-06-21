@@ -258,8 +258,8 @@
   dev.off()
   
 # now plot MSFD habitats 
-  tr <-baltdat
-  tr<-subset(tr,!(is.na(tr$msfd_habitat)))
+  pdf("MSFD habitats.pdf",width=7,height=5.9)
+  tr <-subset(baltdat,! (baltdat$msfd_habitat =="Na"))
   tr$cat <- as.character(tr$msfd_habitat)
   tr$cat[!(as.factor(tr$msfd_habitat) %in% c("Circalittoral mixed sediment","Circalittoral mud",
                                         "Offshore circalittoral mud","Circalittoral sand",
@@ -269,21 +269,24 @@
   msfdcol <- c("#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69")
   
   msfdhab <- ggplot() + geom_point(data=tr, aes(x=longitude, y=latitude, colour=factor(cat)),shape=15,size=.45,na.rm=T) +
-    scale_colour_manual(values=msfdcol,na.value = "#f7fcfd",name  ="Main habitats")
+             scale_colour_manual(values=msfdcol,na.value = "#f7fcfd",name  ="Main habitats",
+             labels=c("Mixed sediment (cl)", "Mud (cl)","Sand (cl)", "Mixed sediment (il)",
+                      "Deep mixed sediment (ocl)","Deep mud (ocl)","Others"))
   msfdhab <- msfdhab +  geom_polygon(data = worldMap.points, aes(x = long, y = lat, group = group),color="dark grey",fill="light grey")+
-    coord_map(xlim=c(8, 28), ylim=c(53, 66.5))
+             coord_map(xlim=c(8, 28), ylim=c(53, 66.5))
   msfdhab <- msfdhab +  theme(plot.background=element_blank(),
-                          panel.background=element_blank(),
-                          axis.text.y   = element_text(size=16),
-                          axis.text.x   = element_text(size=16),
-                          axis.title.y  = element_text(size=16),
-                          axis.title.x  = element_text(size=16),
-                          panel.border  = element_rect(colour = "grey", size=.5,fill=NA),
-                          legend.text   = element_text(size=11),
-                          legend.title  = element_text(size=11))+
-    scale_x_continuous(breaks=c(10,15,20,25))+
-    scale_y_continuous(breaks=c(54,58,62,66))
-  msfdhab<- msfdhab +   guides(colour = guide_legend(override.aes = list(size=5)))
-  
+             panel.background=element_blank(),
+             axis.text.y   = element_text(size=16),
+             axis.text.x   = element_text(size=16),
+             axis.title.y  = element_text(size=16),
+             axis.title.x  = element_text(size=16),
+             panel.border  = element_rect(colour = "grey", size=.5,fill=NA),
+             legend.text   = element_text(size=11),
+             legend.title  = element_text(size=11))+
+             scale_x_continuous(breaks=c(10,15,20,25))+
+             scale_y_continuous(breaks=c(54,58,62,66))
+  msfdhab <- msfdhab +   guides(colour = guide_legend(override.aes = list(size=5)))
+  print(msfdhab)
+  dev.off()
   
   
