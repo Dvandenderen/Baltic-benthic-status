@@ -289,4 +289,36 @@
   print(msfdhab)
   dev.off()
   
+# now plot all stations
+  setwd("C:/Users/pdvd/Online for git/Baltic/Data")
+  load("benthic_data_gogina.RData")
+  
+  Bstations<-transform(Bstations, min = pmin(Bstations$OxyigenWint,Bstations$OxyigenSpring,Bstations$OxyigenSummer,Bstations$OxyigenAutumn))
+  colnames(Bstations)[31]<-"min_oxygen"
+  Bstations$min_oxygen[Bstations$min_oxygen < 0] <- 0
+  Ldat_undist<-subset(Bstations,Bstations$surface_SAR < 0.1 & Bstations$min_oxygen  > 3.2) # undisturbed locations
+  Ldat_dist  <-subset(Bstations,Bstations$surface_SAR >= 0.1 | Bstations$min_oxygen  <= 3.2) # disturbed locations
+  
+  # figure to:
+  setwd("C:/Users/pdvd/Online for git/Baltic/Output")
+  
+  pdf("Sampling locations.pdf",width=5.8,height=5.9)
+  Stations <- ggplot() + geom_point(data=Ldat_dist, aes(x=Longitude, y=Latitude),color="grey",shape=16,size=.75)+
+              geom_point(data=Ldat_undist, aes(x=Longitude, y=Latitude),shape=16,size=.75)
+  Stations <- Stations+geom_polygon(data = worldMap.points, aes(x = long, y = lat, group = group),color="dark grey",fill="light grey")+
+              coord_map(xlim=c(8, 28), ylim=c(53, 66.5))
+  Stations <- Stations +  theme(plot.background=element_blank(),
+              panel.background=element_blank(),
+              axis.text.y   = element_text(size=16),
+              axis.text.x   = element_text(size=16),
+              axis.title.y  = element_text(size=16),
+              axis.title.x  = element_text(size=16),
+              panel.border  = element_rect(colour = "grey", size=.5,fill=NA),
+              legend.text   = element_text(size=11),
+              legend.title  = element_text(size=11))+
+              scale_x_continuous(breaks=c(10,15,20,25))+
+              scale_y_continuous(breaks=c(54,58,62,66))
+  print(Stations)
+  dev.off()
+  
   
