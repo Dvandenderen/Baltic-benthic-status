@@ -61,18 +61,18 @@ for samp = 1:1500
     fprintf('%d\n',samp);
     
     if samp == 100
-    save state.mat state
+    save state_uncertainty_tempmodel.mat state
     end
      
     if samp == 500
-    save state.mat state
+    save state_uncertainty_tempmodel.mat state
     end
     
     if samp == 1000
-    save state.mat state
+    save state_uncertainty_tempmodel.mat state
     end
 end
-save state.mat state
+save state_uncertainty_tempmodel.mat state
 
          
          
