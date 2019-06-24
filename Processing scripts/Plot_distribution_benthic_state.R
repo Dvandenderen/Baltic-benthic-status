@@ -30,8 +30,9 @@
   
 # figures to:
   setwd("C:/Users/pdvd/Online for git/Baltic/Output")
+  library(plotrix)
   
-  pdf("Distribution benthic state.pdf",width=5,height=4.4)
+  pdf("Distribution benthic state.pdf",width=4.5,height=5)
   plot(state[xb:28237,1]~state[xb:28237,3],xaxt="n",yaxt="n",xlab="fraction of Baltic Sea",
        ylab="benthic state",type="l",lwd=3) 
   axis(1,c(.40,.60,.78,.86,1),labels = c(0,.60,.78,.86,1))

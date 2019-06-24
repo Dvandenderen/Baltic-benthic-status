@@ -206,7 +206,7 @@
   
   pdf("Uncertainty_state_community.pdf",width=5.8,height=5.9)
   Unci <- ggplot()+ geom_point(data=baltdat, aes(x=longitude, y=latitude, colour=factor(cat)),shape=15,size=.45) +
-    scale_colour_manual(values=blueland,na.value = "white",name  ="75th - 25th percentile",
+    scale_colour_manual(values=blueland,na.value = "white",name  ="75th - 25th",
                         labels=c("0.1-0.2", "0.2-0.3","0.3-0.4","0.4-0.5","0.5-0.6","0.6-0.7","",""))
   Unci <- Unci+geom_polygon(data = worldMap.points, aes(x = long, y = lat, group = group),color="dark grey",fill="light grey")+
     coord_map(xlim=c(8, 28), ylim=c(53, 66.5))
@@ -361,7 +361,7 @@
   
   msfdhab <- ggplot() + geom_point(data=tr, aes(x=longitude, y=latitude, colour=factor(cat)),shape=15,size=.45,na.rm=T) +
              scale_colour_manual(values=msfdcol,na.value = "#f7fcfd",name  ="Main habitats",
-             labels=c("Mixed sediment (cl)", "Mud (cl)","Sand (cl)", "Mixed sediment (il)",
+             labels=c("Mixed sediment (cl)", "Mud (cl)","Sand (cl)", "Shallow mixed sediment (il)",
                       "Deep mixed sediment (ocl)","Deep mud (ocl)","Others"))
   msfdhab <- msfdhab +  geom_polygon(data = worldMap.points, aes(x = long, y = lat, group = group),color="dark grey",fill="light grey")+
              coord_map(xlim=c(8, 28), ylim=c(53, 66.5))
