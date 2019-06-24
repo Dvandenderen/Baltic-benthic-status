@@ -33,7 +33,6 @@
   setwd("C:/Users/pdvd/Online for git/Baltic/Output")
 
 # map of median longevity whole community
-  quat<-c(2.5,3,3.5,4,4.5,5,6,10,15)
   quat<-c(0.1,2.5,3,3.5,4,5,6,8,15.1)
   baltdat$cat<- cut(baltdat$medLong,c(quat))
   baltdat$cat<-as.factor(baltdat$cat)
@@ -132,6 +131,98 @@
             scale_y_continuous(breaks=c(54,58,62,66))
   figmap <- figmap +   guides(colour = guide_legend(override.aes = list(size=5)))
   print(figmap)
+  dev.off()
+  
+  # get predicted benthic state 75th percentile
+  baltdat$Q75_state[is.na(baltdat$Q75_state) & !(is.na(baltdat$depth))] <- 1
+  baltdat <- transform(baltdat, max = pmax(baltdat$oxygenwinter,baltdat$oxygenspring,baltdat$oxygensummer,baltdat$oxygenautumn))
+  colnames(baltdat)[31]<-"Max_oxygen"
+  baltdat$Q75_state[baltdat$Max_oxygen<0.1] <- 0
+
+  quat<-c(-1,0.001,0.1,0.2,0.4,0.6,0.8,1.1)
+  baltdat$cat<- as.factor(cut(1-baltdat$Q75_state,quat,right=F))
+  colscale <- c("#efedf5","#dadaeb","#bcbddc","#9e9ac8","#807dba","#6a51a3","#54278f","#3f007d")
+  
+  pdf("community state 75th.pdf",width=5.8,height=5.9)
+  figmap <- ggplot() + geom_point(data=baltdat, aes(x=longitude, y=latitude, colour=factor(cat)),shape=15,size=.45,na.rm=T) +
+    scale_colour_manual(values=colscale,na.value = "white",name  ="State",
+                        labels=c("1", "0.9-1","0.8-0.9","0.6-0.8","0.4-0.6","0.2-0.4","<0.2",""))
+  figmap <- figmap +  geom_polygon(data = worldMap.points, aes(x = long, y = lat, group = group),color="dark grey",fill="light grey")+
+    coord_map(xlim=c(8, 28), ylim=c(53, 66.5))
+  figmap <- figmap +  theme(plot.background=element_blank(),
+                            panel.background=element_blank(),
+                            axis.text.y   = element_text(size=16),
+                            axis.text.x   = element_text(size=16),
+                            axis.title.y  = element_text(size=16),
+                            axis.title.x  = element_text(size=16),
+                            panel.border  = element_rect(colour = "grey", size=.5,fill=NA),
+                            legend.text   = element_text(size=11),
+                            legend.title  = element_text(size=11))+
+    scale_x_continuous(breaks=c(10,15,20,25))+
+    scale_y_continuous(breaks=c(54,58,62,66))
+  figmap <- figmap +   guides(colour = guide_legend(override.aes = list(size=5)))
+  print(figmap)
+  dev.off()
+  
+  # get predicted benthic state 25th percentile
+  baltdat$Q25_state[is.na(baltdat$Q25_state) & !(is.na(baltdat$depth))] <- 1
+  baltdat <- transform(baltdat, max = pmax(baltdat$oxygenwinter,baltdat$oxygenspring,baltdat$oxygensummer,baltdat$oxygenautumn))
+  colnames(baltdat)[31]<-"Max_oxygen"
+  baltdat$Q25_state[baltdat$Max_oxygen<0.1] <- 0
+  
+  quat<-c(-1,0.001,0.1,0.2,0.4,0.6,0.8,1.1)
+  baltdat$cat<- as.factor(cut(1-baltdat$Q25_state,quat,right=F))
+  colscale <- c("#efedf5","#dadaeb","#bcbddc","#9e9ac8","#807dba","#6a51a3","#54278f","#3f007d")
+  
+  pdf("community state 25th.pdf",width=5.8,height=5.9)
+  figmap <- ggplot() + geom_point(data=baltdat, aes(x=longitude, y=latitude, colour=factor(cat)),shape=15,size=.45,na.rm=T) +
+    scale_colour_manual(values=colscale,na.value = "white",name  ="State",
+                        labels=c("1", "0.9-1","0.8-0.9","0.6-0.8","0.4-0.6","0.2-0.4","<0.2",""))
+  figmap <- figmap +  geom_polygon(data = worldMap.points, aes(x = long, y = lat, group = group),color="dark grey",fill="light grey")+
+    coord_map(xlim=c(8, 28), ylim=c(53, 66.5))
+  figmap <- figmap +  theme(plot.background=element_blank(),
+                            panel.background=element_blank(),
+                            axis.text.y   = element_text(size=16),
+                            axis.text.x   = element_text(size=16),
+                            axis.title.y  = element_text(size=16),
+                            axis.title.x  = element_text(size=16),
+                            panel.border  = element_rect(colour = "grey", size=.5,fill=NA),
+                            legend.text   = element_text(size=11),
+                            legend.title  = element_text(size=11))+
+    scale_x_continuous(breaks=c(10,15,20,25))+
+    scale_y_continuous(breaks=c(54,58,62,66))
+  figmap <- figmap +   guides(colour = guide_legend(override.aes = list(size=5)))
+  print(figmap)
+  dev.off()
+  
+# map of uncertainty state
+  baltdat$uncer <- baltdat$Q75_state - baltdat$Q25_state
+  baltdat$uncer[is.na(baltdat$uncer) & !(is.na(baltdat$state))] <- 0
+  
+  quat<-c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,1)
+  baltdat$cat<- cut(baltdat$uncer,c(quat))
+  baltdat$cat<-as.factor(baltdat$cat)
+  blueland <- c("#eff3ff","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#084594","#253494","#081d58")
+  
+  pdf("Uncertainty_state_community.pdf",width=5.8,height=5.9)
+  Unci <- ggplot()+ geom_point(data=baltdat, aes(x=longitude, y=latitude, colour=factor(cat)),shape=15,size=.45) +
+    scale_colour_manual(values=blueland,na.value = "white",name  ="75th - 25th percentile",
+                        labels=c("0.1-0.2", "0.2-0.3","0.3-0.4","0.4-0.5","0.5-0.6","0.6-0.7","",""))
+  Unci <- Unci+geom_polygon(data = worldMap.points, aes(x = long, y = lat, group = group),color="dark grey",fill="light grey")+
+    coord_map(xlim=c(8, 28), ylim=c(53, 66.5))
+  Unci <- Unci +  theme(plot.background=element_blank(),
+                          panel.background=element_blank(),
+                          axis.text.y   = element_text(size=16),
+                          axis.text.x   = element_text(size=16),
+                          axis.title.y  = element_text(size=16),
+                          axis.title.x  = element_text(size=16),
+                          panel.border  = element_rect(colour = "grey", size=.5,fill=NA),
+                          legend.text   = element_text(size=11),
+                          legend.title  = element_text(size=11))+
+    scale_x_continuous(breaks=c(10,15,20,25))+
+    scale_y_continuous(breaks=c(54,58,62,66))
+  Unci <- Unci +   guides(colour = guide_legend(override.aes = list(size=5)))
+  print(Unci)
   dev.off()
   
 # get minimum oxygen concentration
