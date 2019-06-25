@@ -135,10 +135,6 @@
   
   # get predicted benthic state 75th percentile
   baltdat$Q75_state[is.na(baltdat$Q75_state) & !(is.na(baltdat$depth))] <- 1
-  baltdat <- transform(baltdat, max = pmax(baltdat$oxygenwinter,baltdat$oxygenspring,baltdat$oxygensummer,baltdat$oxygenautumn))
-  colnames(baltdat)[31]<-"Max_oxygen"
-  baltdat$Q75_state[baltdat$Max_oxygen<0.1] <- 0
-
   quat<-c(-1,0.001,0.1,0.2,0.4,0.6,0.8,1.1)
   baltdat$cat<- as.factor(cut(1-baltdat$Q75_state,quat,right=F))
   colscale <- c("#efedf5","#dadaeb","#bcbddc","#9e9ac8","#807dba","#6a51a3","#54278f","#3f007d")
@@ -166,10 +162,6 @@
   
   # get predicted benthic state 25th percentile
   baltdat$Q25_state[is.na(baltdat$Q25_state) & !(is.na(baltdat$depth))] <- 1
-  baltdat <- transform(baltdat, max = pmax(baltdat$oxygenwinter,baltdat$oxygenspring,baltdat$oxygensummer,baltdat$oxygenautumn))
-  colnames(baltdat)[31]<-"Max_oxygen"
-  baltdat$Q25_state[baltdat$Max_oxygen<0.1] <- 0
-  
   quat<-c(-1,0.001,0.1,0.2,0.4,0.6,0.8,1.1)
   baltdat$cat<- as.factor(cut(1-baltdat$Q25_state,quat,right=F))
   colscale <- c("#efedf5","#dadaeb","#bcbddc","#9e9ac8","#807dba","#6a51a3","#54278f","#3f007d")
