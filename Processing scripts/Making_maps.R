@@ -222,7 +222,7 @@
   baltdat$cat<- as.factor(cut(baltdat$min_oxygen,quat,right=FALSE))
   bluegreen <- c("#ffffcc","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#0c2c84")
   
-  pdf("Minimum oxygen.pdf",width=5.8,height=5.9)
+  pdf("Minimum oxygen.pdf",width=5,height=4.5)
   figmap <- ggplot() + geom_point(data=baltdat, aes(x=longitude, y=latitude, colour=factor(cat)),shape=15,size=.45,na.rm=T) +
             scale_colour_manual(values=bluegreen,na.value = "#f7fcfd",name  ="Oxygen conc. \n ml O2 L-1",
             labels=c("0", "0-0.5","0.5-1","1-2","2-3","3-4",">4"))
@@ -248,7 +248,7 @@
   baltdat$cat<- as.factor(cut(baltdat$surface_SAR,quat,right=FALSE))
   bluegreen <- c("#ffffcc","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#0c2c84")
   
-  pdf("Fishing abrasion.pdf",width=5.8,height=5.9)
+  pdf("Fishing abrasion.pdf",width=5,height=4.5)
   figmap <- ggplot() + geom_point(data=baltdat, aes(x=longitude, y=latitude, colour=factor(cat)),shape=15,size=.45,na.rm=T) +
             scale_colour_manual(values=bluegreen,na.value = "#f7fcfd",name  ="Fishing intensity \n (per year)",
             labels=c("0-0.1", "0.1-0.5","0.5-1","1-5","5-10",">10","no fishing"))
@@ -277,7 +277,7 @@
   baltdat$cat<- as.factor(cut(baltdat$depth,quat,right=FALSE))
   bluegreen <- c("#ffffcc","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#0c2c84")
   
-  pdf("Depth.pdf",width=5.8,height=5.9)
+  pdf("Depth.pdf",width=5,height=4.5)
   Depth <- ggplot() + geom_point(data=baltdat, aes(x=longitude, y=latitude, colour=factor(cat)),shape=15,size=.45,na.rm=T) +
            scale_colour_manual(values=bluegreen,na.value = "#f7fcfd",name  ="Depth (meters)",
            labels=c("< 20", "20-40","40-60","60-100","100-200","200-300",">300"))
@@ -299,7 +299,7 @@
   dev.off()
 
 # wave exposure at the seabed
-  pdf("wave exposure seabed.pdf",width=5.8,height=5.9)
+  pdf("wave exposure seabed.pdf",width=5,height=4.5)
   Wave <- ggplot() + geom_point(data=baltdat, aes(x=longitude, y=latitude, colour=log10(exposu+1)),shape=15,size=.45,na.rm=T) +
           scale_colour_gradient(low="light blue", high= "dark blue",na.value = "white",name="Wave exposure",
           breaks=c(1,3,5), labels=c(10, 1000,100000))
@@ -320,7 +320,7 @@
   dev.off()
 
 # Salinity at the seabed
-  pdf("Salinity.pdf",width=5.8,height=5.9)
+  pdf("Salinity.pdf",width=5,height=4.5)
   Salinity <- ggplot() + geom_point(data=baltdat, aes(x=longitude, y=latitude, colour=Bsalinity),shape=15,size=.45,na.rm=T) +
               scale_colour_gradient2(low="red", mid = "light blue", high= "blue",midpoint=10,
               na.value = "white",name="Salinity (ppt)")
@@ -341,7 +341,7 @@
   dev.off()
   
 # now plot MSFD habitats 
-  pdf("MSFD habitats.pdf",width=7,height=5.9)
+  pdf("MSFD habitats.pdf",width=6,height=4.5)
   tr <-subset(baltdat,! (baltdat$msfd_habitat =="Na"))
   tr$cat <- as.character(tr$msfd_habitat)
   tr$cat[!(as.factor(tr$msfd_habitat) %in% c("Circalittoral mixed sediment","Circalittoral mud",
