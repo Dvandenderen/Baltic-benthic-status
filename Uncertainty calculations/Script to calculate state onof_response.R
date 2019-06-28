@@ -70,7 +70,7 @@
   load("balticgrid_state.RData")  
    balticgrid@data <- balticgrid@data[,-c(28,29)]
   
-# combine balticgrid with calculated state at 25th and 75th quantile
+# combine balticgrid with calculated state 
   balticgrid@data <- cbind(balticgrid@data, state_fish[match(balticgrid@data$squares, state_fish$griddat.squares),c(2)])
   colnames(balticgrid@data)[28] <- "onof_state1"
   balticgrid@data$onof_state1[balticgrid@data$min_oxygen < 0.3] <- 0

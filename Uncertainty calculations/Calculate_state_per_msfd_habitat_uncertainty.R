@@ -5,9 +5,9 @@
   load("balticgrid_state.RData")
 
   baltdat <- as.data.frame(balticgrid)
-  baltdat$Q25_state[is.na(baltdat$Q25_state) & !(is.na(baltdat$depth))] <- 1  
+  baltdat$Q25_state[is.na(baltdat$Q05_state) & !(is.na(baltdat$depth))] <- 1  
   baltdat$Q50_state[is.na(baltdat$Q50_state) & !(is.na(baltdat$depth))] <- 1  
-  baltdat$Q75_state[is.na(baltdat$Q75_state) & !(is.na(baltdat$depth))] <- 1  
+  baltdat$Q95_state[is.na(baltdat$Q95_state) & !(is.na(baltdat$depth))] <- 1  
   baltdat$onof_state1[is.na(baltdat$onof_state1) & !(is.na(baltdat$depth))] <- 1 
   baltdat$onof_state2[is.na(baltdat$onof_state2) & !(is.na(baltdat$depth))] <- 1 
       
@@ -23,18 +23,18 @@
   baltdat<-subset(baltdat,!(is.na(baltdat$knip)))  
   
 # now get average state
-  whole <- c(mean(baltdat$Q25_state,na.rm=T),mean(baltdat$Q50_state, na.rm=T),mean(baltdat$Q75_state, na.rm=T),mean(baltdat$onof_state1,na.rm=T),mean(baltdat$onof_state2,na.rm=T))
+  whole <- c(mean(baltdat$Q05_state,na.rm=T),mean(baltdat$Q50_state, na.rm=T),mean(baltdat$Q95_state, na.rm=T),mean(baltdat$onof_state1,na.rm=T),mean(baltdat$onof_state2,na.rm=T))
   whole <- data.frame("whole region",whole[1],whole[2],whole[3],whole[4],whole[5],1,1)
-  colnames(whole) <-  c("msfd","stateQ25","stateQ50","stateQ75","stateonof1","stateonof2","fraction area","fraction_2dec")
+  colnames(whole) <-  c("msfd","stateQ05","stateQ50","stateQ95","stateonof1","stateonof2","fraction area","fraction_2dec")
   
 # now per habitat
   baltdat <- subset(baltdat,!(is.na(baltdat$depth)))
-  habitatQ25 <- aggregate(baltdat$Q25_state,by=list(baltdat$msfd_habitat),FUN="mean",na.rm=T)
+  habitatQ05 <- aggregate(baltdat$Q05_state,by=list(baltdat$msfd_habitat),FUN="mean",na.rm=T)
   habitatQ50 <- aggregate(baltdat$Q50_state,by=list(baltdat$msfd_habitat),FUN="mean",na.rm=T)
-  habitatQ75 <- aggregate(baltdat$Q75_state,by=list(baltdat$msfd_habitat),FUN="mean",na.rm=T)
+  habitatQ95 <- aggregate(baltdat$Q95_state,by=list(baltdat$msfd_habitat),FUN="mean",na.rm=T)
   habitatOnof1 <- aggregate(baltdat$onof_state1,by=list(baltdat$msfd_habitat),FUN="mean",na.rm=T)
   habitatOnof2 <- aggregate(baltdat$onof_state2,by=list(baltdat$msfd_habitat),FUN="mean",na.rm=T)
-  habitat_tot <- cbind(habitatQ25,habitatQ50[,2],habitatQ75[,2],habitatOnof1[,2],habitatOnof2[,2])
+  habitat_tot <- cbind(habitatQ05,habitatQ50[,2],habitatQ95[,2],habitatOnof1[,2],habitatOnof2[,2])
     
 # calculate total surface area
   totarea <- aggregate(baltdat$area_sqkm,by=list(baltdat$msfd_habitat),FUN="sum",na.rm=T)
@@ -45,7 +45,7 @@
                                                      "Offshore circalittoral mud","Circalittoral sand",
                                                      "Infralittoral mixed sediment","Offshore circalittoral mixed sediment")))
   msfd_imp <- as.data.frame(msfd_imp)
-  colnames(msfd_imp) <-  c("msfd","stateQ25","stateQ50","stateQ75","stateonof1","stateonof2","fraction area","fraction_2dec")
+  colnames(msfd_imp) <-  c("msfd","stateQ05","stateQ50","stateQ95","stateonof1","stateonof2","fraction area","fraction_2dec")
   msfd_imp$msfd <- as.character(msfd_imp$msfd)
   
   #calculate weighted per surface area, average for the other regions
@@ -55,7 +55,7 @@
   other <- remreg[,7]*remreg[,2:6]
   other <- colSums(other)/sum(remreg[,7])
   other <- data.frame("others",other[1],other[2],other[3],other[4],other[5],sum(remreg[,7]),sum(remreg[,8]))
-  colnames(other) <- c("msfd","stateQ25","stateQ50","stateQ75","stateonof1","stateonof2","fraction area","fraction_2dec")
+  colnames(other) <- c("msfd","stateQ05","stateQ50","stateQ95","stateonof1","stateonof2","fraction area","fraction_2dec")
   
   statehabitat <- rbind(whole,msfd_imp,other)
   statehabitat <- statehabitat[order(-statehabitat$fraction_2dec),] 
