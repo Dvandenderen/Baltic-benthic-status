@@ -104,7 +104,7 @@
 # for the manuscript I calculate the 25th and 75th quantile 
 # and their difference
   library(matrixStats)
-  probs <- c(0.05,0.5 ,0.95)
+  probs <- c(0.25,0.5 ,0.75)
   
   # Row quantiles
   q <- rowQuantiles(as.matrix(state_notemp[,2:1501]), probs = probs)
@@ -121,11 +121,11 @@
   load("balticgrid_state.RData")
   balticgrid@data <- balticgrid@data[,-c(24:29)]
 
-# combine balticgrid with calculated state at 5th, 50th and 95th quantile
+# combine balticgrid with calculated state at 25th, 50th and 75th quantile
   balticgrid@data <- cbind(balticgrid@data, state_quant[match(balticgrid@data$squares, state_quant$squares),c(2:4)])
-  names(balticgrid@data)[24] <- "Q05_state"
+  names(balticgrid@data)[24] <- "Q25_state"
   names(balticgrid@data)[25] <- "Q50_state"
-  names(balticgrid@data)[26] <- "Q95_state"
+  names(balticgrid@data)[26] <- "Q75_state"
   
 # now include all regions with very low oxygen conditions
   # get maximum oxygen concentrations
