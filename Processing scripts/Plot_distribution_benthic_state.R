@@ -33,8 +33,8 @@
   library(plotrix)
   
   pdf("Distribution benthic state.pdf",width=4.5,height=5)
-  plot(state[xb:28237,1]~state[xb:28237,3],xaxt="n",yaxt="n",xlab="fraction of Baltic Sea",
-       ylab="benthic state",type="l",lwd=3) 
+  plot(state[xb:28237,1]~state[xb:28237,3],xaxt="n",yaxt="n",xlab="Fraction of Baltic Sea",
+       ylab="Benthic state",type="l",lwd=3) 
   axis(1,c(.40,.60,.78,.86,1),labels = c(0,.60,.78,.86,1))
   axis.break(1,.50,style="slash",brw=0.05) 
   axis(2,c(0,0.5,0.9,1),las=1)
