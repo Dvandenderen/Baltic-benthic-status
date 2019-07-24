@@ -101,7 +101,7 @@
   
   par(mar = c(5, 6, 4, 5) + 0.1)
   plot(state[,1]~Meansurface,ylim=c(0,1),type="l", col="red",lwd=2,xaxt="n",yaxt="n",
-       xlab="Fishing intensity (per year)",ylab="Community state")
+       xlab="Trawling intensity (per year)",ylab="Community state")
   lines(state[,2]~Meansurface, col="blue",lwd=2,lty=3)
   lines(state[,3]~Meansurface, col="black",lwd=2,lty=5)
   lines(state[,4]~Meansurface, col="purple",lwd=2,lty=4)
