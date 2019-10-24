@@ -34,8 +34,6 @@
 # whole area
   regw <- sum(baltdat$area_sqkm[!(is.na(baltdat$state))])
   c(regfish/regw, regox/regw, regcomb/regw) 
- trel <- sum(regfish,regox,regcomb)
-   c(regfish/trel, regox/trel,regcomb/trel)
-   c(mean(baltfish$state),mean(baltox$state),mean(baltcomb$state))
+  c(mean(baltfish$state),mean(baltox$state),mean(baltcomb$state))
    
   
